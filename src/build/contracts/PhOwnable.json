@@ -1,0 +1,571 @@
+{
+  "contractName": "PhOwnable",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "isOwner",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"isOwner()\":{\"return\":\"true if `msg.sender` is the owner of the contract.\"},\"owner()\":{\"return\":\"the address of the owner.\"},\"renounceOwnership()\":{\"details\":\"Allows the current owner to relinquish control of the contract.\"},\"transferOwnership(address)\":{\"details\":\"Allows the current owner to transfer control of the contract to a newOwner.\",\"params\":{\"newOwner\":\"The address to transfer ownership to.\"}}}},\"userdoc\":{\"methods\":{\"renounceOwnership()\":{\"notice\":\"Renouncing to ownership will leave the contract without an owner. It will not be possible to call the functions with the `onlyOwner` modifier anymore.\"}}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/modifiers/PhOwnable.sol\":\"PhOwnable\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/modifiers/PhOwnable.sol\":{\"keccak256\":\"0x645c27282d42064d5e55ff4c3cb01ff9ce7c53d7020fe687b698fac3c9ebe33a\",\"urls\":[\"bzz-raw://783801787f474c6a94420d8b2d4d42c28086a3091848083dd515ae4545cac508\",\"dweb:/ipfs/QmfH8yvZjHAD83F25ZykCKdMRqxEtP8gFuULJacN8qedLR\"]},\"project:/contracts/openzeppelin-solidity/contracts/ownership/Ownable.sol\":{\"keccak256\":\"0x980de387a1a020a498f53d00f89fecebb12c949a17e8f160093c0303ede2b786\",\"urls\":[\"bzz-raw://f07a2c393caa85f62f0aaa461e3edd50aa59371d4209778ba0558d7f8b4b856c\",\"dweb:/ipfs/QmeN3ZiYGSjCnQFeYaJNgoXjF9eDue1g3e9pqManRkeBtV\"]}},\"version\":1}",
+  "bytecode": "0x60806040819052600080546001600160a01b03191633178082556001600160a01b0316917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908290a36101fc806100576000396000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c8063715018a6146100515780638da5cb5b1461005b5780638f32d59b1461007f578063f2fde38b1461009b575b600080fd5b6100596100c1565b005b61006361011c565b604080516001600160a01b039092168252519081900360200190f35b61008761012b565b604080519115158252519081900360200190f35b610059600480360360208110156100b157600080fd5b50356001600160a01b031661013c565b6100c961012b565b6100d257600080fd5b600080546040516001600160a01b03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a3600080546001600160a01b0319169055565b6000546001600160a01b031690565b6000546001600160a01b0316331490565b61014461012b565b61014d57600080fd5b61015681610159565b50565b6001600160a01b03811661016c57600080fd5b600080546040516001600160a01b03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a3600080546001600160a01b0319166001600160a01b039290921691909117905556fea265627a7a723158208751bad581e89cd98d99f634efee11b7fc0fc409738cc520d4b7f7246604984064736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061004c5760003560e01c8063715018a6146100515780638da5cb5b1461005b5780638f32d59b1461007f578063f2fde38b1461009b575b600080fd5b6100596100c1565b005b61006361011c565b604080516001600160a01b039092168252519081900360200190f35b61008761012b565b604080519115158252519081900360200190f35b610059600480360360208110156100b157600080fd5b50356001600160a01b031661013c565b6100c961012b565b6100d257600080fd5b600080546040516001600160a01b03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a3600080546001600160a01b0319169055565b6000546001600160a01b031690565b6000546001600160a01b0316331490565b61014461012b565b61014d57600080fd5b61015681610159565b50565b6001600160a01b03811661016c57600080fd5b600080546040516001600160a01b03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a3600080546001600160a01b0319166001600160a01b039290921691909117905556fea265627a7a723158208751bad581e89cd98d99f634efee11b7fc0fc409738cc520d4b7f7246604984064736f6c63430005100032",
+  "sourceMap": "94:149:8:-;;;;;515:6:22;:19;;-1:-1:-1;;;;;;515:19:22;524:10;515:19;;;;-1:-1:-1;;;;;582:6:22;;549:40;;515:6;;549:40;94:149:8;;;;;;",
+  "deployedSourceMap": "94:149:8:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;94:149:8;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1347:137:22;;;:::i;:::-;;659:77;;;:::i;:::-;;;;-1:-1:-1;;;;;659:77:22;;;;;;;;;;;;;;979:90;;;:::i;:::-;;;;;;;;;;;;;;;;;;1655:107;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1655:107:22;-1:-1:-1;;;;;1655:107:22;;:::i;1347:137::-;863:9;:7;:9::i;:::-;855:18;;;;;;1445:1;1429:6;;1408:40;;-1:-1:-1;;;;;1429:6:22;;;;1408:40;;1445:1;;1408:40;1475:1;1458:19;;-1:-1:-1;;;;;;1458:19:22;;;1347:137::o;659:77::-;697:7;723:6;-1:-1:-1;;;;;723:6:22;659:77;:::o;979:90::-;1019:4;1056:6;-1:-1:-1;;;;;1056:6:22;1042:10;:20;;979:90::o;1655:107::-;863:9;:7;:9::i;:::-;855:18;;;;;;1727:28;1746:8;1727:18;:28::i;:::-;1655:107;:::o;1906:183::-;-1:-1:-1;;;;;1979:22:22;;1971:31;;;;;;2038:6;;;2017:38;;-1:-1:-1;;;;;2017:38:22;;;;2038:6;;;2017:38;;;2065:6;:17;;-1:-1:-1;;;;;;2065:17:22;-1:-1:-1;;;;;2065:17:22;;;;;;;;;;1906:183::o",
+  "source": "pragma solidity ^0.5.0;\n\nimport \"../openzeppelin-solidity/contracts/ownership/Ownable.sol\";\n\n\ncontract PhOwnable is Ownable {\n\n    // example\n    modifier onlyStakingPerson(uint _time) { \n        require (now >= _time);\n        _;\n    }\n    \n}\n",
+  "sourcePath": "D:\\Learning\\BlockChain\\source\\NFT Marketpalce\\NFT-based-photo-marketplace-master\\NFT-based-photo-marketplace-master\\contracts\\modifiers\\PhOwnable.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/modifiers/PhOwnable.sol",
+    "exportedSymbols": {
+      "PhOwnable": [
+        1549
+      ]
+    },
+    "id": 1550,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1533,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:8"
+      },
+      {
+        "absolutePath": "project:/contracts/openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "file": "../openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "id": 1534,
+        "nodeType": "ImportDirective",
+        "scope": 1550,
+        "sourceUnit": 2855,
+        "src": "25:66:8",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1535,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2854,
+              "src": "116:7:8",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$2854",
+                "typeString": "contract Ownable"
+              }
+            },
+            "id": 1536,
+            "nodeType": "InheritanceSpecifier",
+            "src": "116:7:8"
+          }
+        ],
+        "contractDependencies": [
+          2854
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1549,
+        "linearizedBaseContracts": [
+          1549,
+          2854
+        ],
+        "name": "PhOwnable",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 1547,
+              "nodeType": "Block",
+              "src": "185:51:8",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 1543,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 1541,
+                          "name": "now",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6204,
+                          "src": "205:3:8",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": ">=",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 1542,
+                          "name": "_time",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1538,
+                          "src": "212:5:8",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "src": "205:12:8",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 1540,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        6205,
+                        6206
+                      ],
+                      "referencedDeclaration": 6205,
+                      "src": "196:7:8",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 1544,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "196:22:8",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1545,
+                  "nodeType": "ExpressionStatement",
+                  "src": "196:22:8"
+                },
+                {
+                  "id": 1546,
+                  "nodeType": "PlaceholderStatement",
+                  "src": "228:1:8"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1548,
+            "name": "onlyStakingPerson",
+            "nodeType": "ModifierDefinition",
+            "parameters": {
+              "id": 1539,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1538,
+                  "name": "_time",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1548,
+                  "src": "173:10:8",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1537,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "173:4:8",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "172:12:8"
+            },
+            "src": "146:90:8",
+            "visibility": "internal"
+          }
+        ],
+        "scope": 1550,
+        "src": "94:149:8"
+      }
+    ],
+    "src": "0:244:8"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/modifiers/PhOwnable.sol",
+      "exportedSymbols": {
+        "PhOwnable": [
+          1549
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.5",
+            ".0"
+          ]
+        },
+        "id": 1533,
+        "name": "PragmaDirective",
+        "src": "0:23:8"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 2855,
+          "absolutePath": "project:/contracts/openzeppelin-solidity/contracts/ownership/Ownable.sol",
+          "file": "../openzeppelin-solidity/contracts/ownership/Ownable.sol",
+          "scope": 1550,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 1534,
+        "name": "ImportDirective",
+        "src": "25:66:8"
+      },
+      {
+        "attributes": {
+          "contractDependencies": [
+            2854
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            1549,
+            2854
+          ],
+          "name": "PhOwnable",
+          "scope": 1550
+        },
+        "children": [
+          {
+            "attributes": {
+              "arguments": null
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "Ownable",
+                  "referencedDeclaration": 2854,
+                  "type": "contract Ownable"
+                },
+                "id": 1535,
+                "name": "UserDefinedTypeName",
+                "src": "116:7:8"
+              }
+            ],
+            "id": 1536,
+            "name": "InheritanceSpecifier",
+            "src": "116:7:8"
+          },
+          {
+            "attributes": {
+              "documentation": null,
+              "name": "onlyStakingPerson",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_time",
+                      "scope": 1548,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 1537,
+                        "name": "ElementaryTypeName",
+                        "src": "173:4:8"
+                      }
+                    ],
+                    "id": 1538,
+                    "name": "VariableDeclaration",
+                    "src": "173:10:8"
+                  }
+                ],
+                "id": 1539,
+                "name": "ParameterList",
+                "src": "172:12:8"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_bool",
+                                  "typeString": "bool"
+                                }
+                              ],
+                              "overloadedDeclarations": [
+                                6205,
+                                6206
+                              ],
+                              "referencedDeclaration": 6205,
+                              "type": "function (bool) pure",
+                              "value": "require"
+                            },
+                            "id": 1540,
+                            "name": "Identifier",
+                            "src": "196:7:8"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "commonType": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              },
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "operator": ">=",
+                              "type": "bool"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 6204,
+                                  "type": "uint256",
+                                  "value": "now"
+                                },
+                                "id": 1541,
+                                "name": "Identifier",
+                                "src": "205:3:8"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 1538,
+                                  "type": "uint256",
+                                  "value": "_time"
+                                },
+                                "id": 1542,
+                                "name": "Identifier",
+                                "src": "212:5:8"
+                              }
+                            ],
+                            "id": 1543,
+                            "name": "BinaryOperation",
+                            "src": "205:12:8"
+                          }
+                        ],
+                        "id": 1544,
+                        "name": "FunctionCall",
+                        "src": "196:22:8"
+                      }
+                    ],
+                    "id": 1545,
+                    "name": "ExpressionStatement",
+                    "src": "196:22:8"
+                  },
+                  {
+                    "id": 1546,
+                    "name": "PlaceholderStatement",
+                    "src": "228:1:8"
+                  }
+                ],
+                "id": 1547,
+                "name": "Block",
+                "src": "185:51:8"
+              }
+            ],
+            "id": 1548,
+            "name": "ModifierDefinition",
+            "src": "146:90:8"
+          }
+        ],
+        "id": 1549,
+        "name": "ContractDefinition",
+        "src": "94:149:8"
+      }
+    ],
+    "id": 1550,
+    "name": "SourceUnit",
+    "src": "0:244:8"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2021-08-29T20:15:31.504Z",
+  "devdoc": {
+    "methods": {
+      "isOwner()": {
+        "return": "true if `msg.sender` is the owner of the contract."
+      },
+      "owner()": {
+        "return": "the address of the owner."
+      },
+      "renounceOwnership()": {
+        "details": "Allows the current owner to relinquish control of the contract."
+      },
+      "transferOwnership(address)": {
+        "details": "Allows the current owner to transfer control of the contract to a newOwner.",
+        "params": {
+          "newOwner": "The address to transfer ownership to."
+        }
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {
+      "renounceOwnership()": {
+        "notice": "Renouncing to ownership will leave the contract without an owner. It will not be possible to call the functions with the `onlyOwner` modifier anymore."
+      }
+    }
+  }
+}
