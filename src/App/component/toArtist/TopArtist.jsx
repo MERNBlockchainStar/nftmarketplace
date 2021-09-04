@@ -79,7 +79,7 @@ const TopArtist = () => {
   const[allphotos, setAllphotos] = useState([]);
   const getAllPhotos = async () => {
     var photoNFTData = require('../../../build/contracts/PhotoNFTData.json')
-    var web3provider = window.web3provider;
+    var web3provider = window.web3provider;console.log(web3provider);
     const networkId = await web3provider.eth.net.getId();
     const deployedNetwork = photoNFTData.networks[networkId.toString()];
     var instancePhotoNFTData = new web3provider.eth.Contract(photoNFTData.abi,deployedNetwork&&deployedNetwork.address )
@@ -128,11 +128,9 @@ const TopArtist = () => {
                 <ScrollMenu>
                 {allphotos.map((photo, index) => (
                       <Card
-                        key={index}
-                        name = {photo.photoNFTName}
-                        title={photo.photoNFTName}
+                        amount={web3provider.utils.fromWei(photo.photoPrice)}
+                        name = {photo.photoNFTName?photo.photoNFTName:"Token name"}
                         img={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}` }
-                        price={{ bnb: web3provider.utils.fromWei(photo.photoPrice), dollar: 10 }}
                     />
                   ))}
                 </ScrollMenu>
