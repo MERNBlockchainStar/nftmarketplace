@@ -1,6 +1,6 @@
 import { Avatar, Button, Container, Grid, makeStyles } from "@material-ui/core";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
-
+import { useState, useEffect, useMemo } from 'react'
 import avaterimg from "../../images/avater.png";
 import hedingimg from "../../images/heading.png";
 import RouteLink from "../RouteLink";
@@ -76,6 +76,24 @@ const useStyles = makeStyles((theme) => ({
 
 const TopArtist = () => {
   const classes = useStyles();
+  const[allphotos, setAllphotos] = useState([]);
+  const getAllPhotos = async () => {
+    var photoNFTData = require('../../../build/contracts/PhotoNFTData.json')
+    var web3provider = window.web3provider;
+    const networkId = await web3provider.eth.net.getId();
+    const deployedNetwork = photoNFTData.networks[networkId.toString()];
+    var instancePhotoNFTData = new web3provider.eth.Contract(photoNFTData.abi,deployedNetwork&&deployedNetwork.address )
+    const allPhotos = await instancePhotoNFTData.methods.getAllPhotos().call()
+    console.log('=== allPhotos ===', allPhotos)
+
+    return allPhotos
+  }
+
+  useEffect(async () =>{
+    var allphotos = await getAllPhotos();
+    console.log(allphotos)
+    setAllphotos(allphotos)
+  },[])
   return (
     <section style={{ padding: "50px 0 50px 0" }}>
       <Container>
@@ -108,72 +126,15 @@ const TopArtist = () => {
 
               <div>
                 <ScrollMenu>
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={1}
-                  />
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={2}
-                  />
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={3}
-                  />
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={4}
-                  />
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={5}
-                  />
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={6}
-                  />
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={7}
-                  />
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={8}
-                  />
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={9}
-                  />
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={10}
-                  />
-                  <Card
-                    name="Tomi anime"
-                    amount={50}
-                    img={avaterimg}
-                    count={11}
-                  />
+                {allphotos.map((photo, index) => (
+                      <Card
+                        key={index}
+                        name = {photo.photoNFTName}
+                        title={photo.photoNFTName}
+                        img={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}` }
+                        price={{ bnb: web3provider.utils.fromWei(photo.photoPrice), dollar: 10 }}
+                    />
+                  ))}
                 </ScrollMenu>
               </div>
               <div>

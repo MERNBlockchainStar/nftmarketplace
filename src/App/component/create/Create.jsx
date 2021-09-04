@@ -10,6 +10,7 @@ import inputImg from "../../images/img-input.png";
 import ipfs from '../../../utils/ipfsApi.js'
 import { zeppelinSolidityHotLoaderOptions } from '../../../webpack';
 import getWeb3, { getGanacheWeb3, Web3 } from "../../../utils/getWeb3";
+
 const useStyles = makeStyles((theme) => ({
   box: {
     width: "500px",
@@ -172,37 +173,59 @@ const Create = (props) => {
       }
    
    const handleSubmit = async(event) => {
-    event.preventDefault()
-    console.log(buffer)
-        let PhotoNFTFactory = {};
-        let PhotoNFTMarketplace = {};
-        try {
-          PhotoNFTFactory = require("../../../build/contracts/PhotoNFTFactory.json"); // Load ABI of contract of PhotoNFTFactory
-          PhotoNFTMarketplace = require("../../../build/contracts/PhotoNFTMarketplace.json");
-        } catch (e) {
-          console.log(e);
-        }
-      web3provider = window.web3provider;
+      event.preventDefault()
+      console.log(buffer)
+      let PhotoNFTFactory = {};
+      let PhotoNFTMarketplace = {};
+      let PhotoNFTData = {}
+      try {
+        PhotoNFTFactory = require("../../../build/contracts/PhotoNFTFactory.json"); // Load ABI of contract of PhotoNFTFactory
+        PhotoNFTMarketplace = require("../../../build/contracts/PhotoNFTMarketplace.json");
+        PhotoNFTData = require("../../../build/contracts/PhotoNFTData.json");
+      } catch (e) {
+        console.log(e);
+      }
+
+      // var web3provider = await getWeb3()
+      console.log(window.web3provider)
+      if(window.web3provider){
+        web3provider = window.web3provider;
+      }
+      console.log(web3provider)
       //  Use web3 to get the user's accounts.
       const accounts = await web3provider.eth.getAccounts();
       // Get the contract instance.
       const networkId = await web3provider.eth.net.getId();
-      const networkType = await web3provider.eth.net.getNetworkType();
-      const isMetaMask = web3provider.currentProvider.isMetaMask;
+      
+      
       let balance = accounts.length > 0 ? await web3provider.eth.getBalance(accounts[0]): web3provider.utils.toWei('0');
       balance = web3provider.utils.fromWei(balance, 'ether');
       console.log("this is information",accounts, networkId,balance)
       let instancePhotoNFTFactory = null;
       let instancePhotoNFTMarketplace = null;
+      let instancephotoNFTData = null;
       let PHOTO_NFT_MARKETPLACE;
       let deployedNetwork = null;
       console.log(accounts,networkId)
+      console.log(PhotoNFTFactory.networks)
       // Create instance of contracts
       if (PhotoNFTFactory.networks) {
         deployedNetwork = PhotoNFTFactory.networks[networkId.toString()];
         if (deployedNetwork) {
+          
           instancePhotoNFTFactory = new web3provider.eth.Contract(
             PhotoNFTFactory.abi,
+            deployedNetwork && deployedNetwork.address,
+          );
+          console.log('=== instancePhotoNFTFactory ===', instancePhotoNFTFactory);
+        }
+      }
+      if (PhotoNFTData.networks) {
+        deployedNetwork = PhotoNFTData.networks[networkId.toString()];
+        if (deployedNetwork) {
+          
+          instancephotoNFTData = new web3provider.eth.Contract(
+            PhotoNFTData.abi,
             deployedNetwork && deployedNetwork.address,
           );
           console.log('=== instancePhotoNFTFactory ===', instancePhotoNFTFactory);
@@ -243,18 +266,20 @@ const Create = (props) => {
       // }
     
      alert("please wait a moment")
-    ipfs.files.add(buffer, (error, result) => {
-      // In case of fail to upload to IPFS
-      if (error) {
-        console.log("there is error")
-        console.error(error)
-        return
-      }
+    // ipfs.files.add(buffer, (error, result) => {
+    //   // In case of fail to upload to IPFS
+    //   if (error) {
+    //     console.log("there is error")
+    //     console.error(error)
+    //     return
+    //   }
       alert("Success photo upload");
-      console.log(result[0].hash)
+      // var _hash = result[0].hash  
+      var _hash = "QmZuX22LrbTkh1dD2N4n1Hs5DJwvJJLRzu6Z6pWWyqF5mn"
+      console.log(_hash)
       // In case of successful to upload to IPFS
-      setIpfsHash(result[0].hash);
-      console.log('=== ipfsHash ===', result[0].hash);
+      setIpfsHash(_hash);
+      console.log('=== ipfsHash ===', _hash);
       
       const nftName = valueNFTName;
       const nftSymbol = "NFT-MARKETPLACE";  /// [Note]: All NFT's symbol are common symbol
@@ -269,10 +294,15 @@ const Create = (props) => {
     
       
       let PHOTO_NFT;  /// [Note]: This is a photoNFT address created
-      let web3provider = window.web3provider;
       const photoPrice = web3provider.utils.toWei(_photoPrice, 'ether');
-      const ipfsHashOfPhoto = result[0].hash;
+      const ipfsHashOfPhoto = _hash;
       console.log("ipfs",ipfsHashOfPhoto)
+      let _isExist = await instancephotoNFTData.methods.isExist(ipfsHashOfPhoto).call()
+      if(_isExist) {
+        alert("image exist already")
+        return
+      }
+      console.log(_isExist)
       instancePhotoNFTFactory.methods.createNewPhotoNFT(nftName, nftSymbol, photoPrice, ipfsHashOfPhoto).send({ from: accounts[0] })
       .once('receipt', (receipt) => {
         console.log('=== receipt ===', receipt);
@@ -298,7 +328,7 @@ const Create = (props) => {
               console.log("this is trade")
           })
       })
-    })
+    // })
    }
 
   const getGanacheAddresses = async () => {
